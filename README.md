@@ -93,3 +93,28 @@ The profile is defined using 6 points:
 "20:00": 18.0
 "24:00": 18.0
 ```
+
+## Disable ramp
+
+The ramp between different temperatures can bee disabled with setProfile in a function:
+
+```sh
+var msg = {};
+msg.topic = "setProfile";
+
+msg.payload = {
+    "name":"My-Profile",
+    "ramp":"false",
+    "points": {
+        "00:00" : 17.0,
+        "06:00" : 21.0,
+        "08:00" : 19.0,
+        "15:00" : 21.0,
+        "18:00" : 23.0,
+        "22:00" : 17.0,
+        "24:00" : 17.0
+    }
+};
+
+return msg;
+´´´
