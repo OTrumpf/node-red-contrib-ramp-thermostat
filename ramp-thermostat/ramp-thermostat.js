@@ -105,6 +105,7 @@ module.exports = function(RED) {
             
             if (result.found) {
               this.profile = result.profile;
+              this.profile.ramp = msg.payload.ramp || {};
               if (this.profile.name === "default") {
                 this.profile = RED.nodes.getNode(config.profile);
                 this.points_result = getPoints(this.profile.n);
@@ -196,9 +197,14 @@ module.exports = function(RED) {
       point_target = profile.points[k].t;
       
       if (current_mins < point_mins) {
-        gradient = (point_target - pre_target) / (point_mins - pre_mins);
-        target = pre_target + (gradient * (current_mins - pre_mins));
-        //this.warn("k=" + k +" gradient " + gradient + " target " + target);          
+        if( profile.ramp === "false" ) {
+          target = pre_target;
+        }
+        else {
+          gradient = (point_target - pre_target) / (point_mins - pre_mins);
+          target = pre_target + (gradient * (current_mins - pre_mins));
+          //this.warn("k=" + k +" gradient " + gradient + " target " + target);          
+        }
         break;
       }
       pre_mins = point_mins;
